@@ -1,6 +1,11 @@
 var request = require('request');
 var fs = require('fs');
 
+args = process.argv.slice(2);
+
+var owner = args[0];
+var repo = args[1];
+
 console.log('Welcome to the GitHub Avatar Downloader!');
 
 function getRepoContributors(repoOwner, repoName, cb) {
@@ -29,11 +34,13 @@ function downloadImageByURL(url, filePath) {
        .pipe(fs.createWriteStream("./avatars/"+ filePath +".jpg"))                
 }
 
-getRepoContributors("jquery", "jquery", function(err, result) {
-  console.log("Errors:", err);
-  //console.log("Result:", result);
-  result.forEach(function(user) {
-      downloadImageByURL(user.avatar_url, user.login);
-  });
-  console.log("Download complete.");
+getRepoContributors(owner, repo, function(err, result) {
+  if(owner !== undefined|| repo !== undefined) {
+    result.forEach(function(user) {
+        downloadImageByURL(user.avatar_url, user.login);
+    });
+    console.log("Download complete.");
+  } else {
+      console.log("No data has been input, please verify and try again");
+  }
 });
