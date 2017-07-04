@@ -47,8 +47,7 @@ function checkConfigs() {
     }
 }
 //check if the folder that the files will be download exists
-function checkIfFolderExists() {
-    debugger;
+function checkIfFolderExists() {;
     if(!fs.existsSync("./avatars/")) { //if its false, log the message
         stopProcess = true;
         errorMessage += "\nThe folder avatars were not found, please create and try again";
@@ -72,3 +71,7 @@ getRepoContributors(owner, repo, function(err, result) {
       return;
   }
 });
+
+module.exports = {
+    getRepoContributors : getRepoContributors
+};
